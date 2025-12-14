@@ -1,12 +1,14 @@
 import express from "express";
 import pool from "../db/index.js";
+import requireUser from "../middleware/requireUser.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", requireUser, async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM gratitude_entries ORDER BY created_at DESC"
+      "SELECT * FROM gratitude_entries WHERE user_id = $1 ORDER BY created_at DESC",
+      [req.user.id]
     );
     res.json(result.rows);
   } catch (err) {
@@ -15,12 +17,12 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", requireUser, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
-      "SELECT * FROM gratitude_entries WHERE id = $1",
-      [id]
+      "SELECT * FROM gratitude_entries WHERE id = $1 AND user_id = $2",
+      [id, req.user.id]
     );
     if (result.rows.length === 0) {
       return res.status(404).json({ error: "Entry not found" });
@@ -32,12 +34,12 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", requireUser, async (req, res) => {
   const { user_id, content, mood_tag } = req.body;
   try {
     const result = await pool.query(
       "INSERT INTO gratitude_entries (user_id, content, mood_tag) VALUES ($1, $2, $3) RETURNING *",
-      [user_id, content, mood_tag]
+      [req.user_id, content, mood_tag]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -46,13 +48,13 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", requireUser, async (req, res) => {
   const { id } = req.params;
   const { content, mood_tag } = req.body;
   try {
     const result = await pool.query(
-      "UPDATE gratitude_entries SET content = $1, mood_tag = $2, updated_at = NOW() WHERE id = $3 RETURNING *",
-      [content, mood_tag, id]
+      "UPDATE gratitude_entries SET content = $1, mood_tag = $2, updated_at = NOW() WHERE id = $3 AND user_id = $4 RETURNING *",
+      [content, mood_tag, id, req.user.id]
     );
     if (result.rows.length === 0)
       return res.status(404).json({ error: "Entry not found" });
@@ -63,12 +65,12 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", requireUser, async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
-      "DELETE FROM gratitude_entries WHERE id = $1 RETURNING *",
-      [id]
+      "DELETE FROM gratitude_entries WHERE id = $1 AND user_id = $2 RETURNING *",
+      [id, req.user.id]
     );
     if (result.rows.length === 0)
       return res.status(404).json({ error: "Entry not found" });
