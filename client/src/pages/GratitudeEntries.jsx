@@ -9,11 +9,15 @@ export default function GratitudeEntries() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (!token) return;
 
     try {
       const res = await fetch("http://localhost:5000/entries", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({ content, mood_tag: moodTag }),
       });
 
@@ -68,60 +72,60 @@ export default function GratitudeEntries() {
       <h1>Gratuity Jar</h1>
 
       {/* Form section */}
-<div className="main-content">
-  <h2>Add a Gratitude Entry</h2>
-  <form
-    onSubmit={handleSubmit}
-    style={{
-      display: "flex",
-      flexDirection: "column",
-      gap: "1rem",
-      marginBottom: "2rem"
-    }}
-  >
-    <textarea
-      id="content"
-      value={content}
-      onChange={(e) => setContent(e.target.value)}
-      placeholder="What are you grateful for?"
-      required
-      style={{
-        padding: "0.75rem",
-        borderRadius: "5px",
-        border: `1px solid var(--accent-color)`,
-        backgroundColor: "var(--bg-color)",
-        color: "var(--text-color)"
-      }}
-    />
-    <input
-      type="text"
-      value={moodTag}
-      onChange={(e) => setMoodTag(e.target.value)}
-      placeholder="Mood (optional)"
-      style={{
-        padding: "0.5rem",
-        borderRadius: "5px",
-        border: `1px solid var(--accent-color)`,
-        backgroundColor: "var(--bg-color)",
-        color: "var(--text-color)"
-      }}
-    />
-    <button
-      type="submit"
-      disabled={!content.trim()}
-      style={{
-        backgroundColor: "var(--accent-color)",
-        color: "var(--bg-color)",
-        border: "none",
-        padding: "0.75rem 1rem",
-        borderRadius: "5px",
-        cursor: "pointer"
-      }}
-    >
-      Add Entry
-    </button>
-  </form>
-</div>
+      <div className="main-content">
+        <h2>Add a Gratitude Entry</h2>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+            marginBottom: "2rem",
+          }}
+        >
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="What are you grateful for?"
+            required
+            style={{
+              padding: "0.75rem",
+              borderRadius: "5px",
+              border: `1px solid var(--accent-color)`,
+              backgroundColor: "var(--bg-color)",
+              color: "var(--text-color)",
+            }}
+          />
+          <input
+            type="text"
+            value={moodTag}
+            onChange={(e) => setMoodTag(e.target.value)}
+            placeholder="Mood (optional)"
+            style={{
+              padding: "0.5rem",
+              borderRadius: "5px",
+              border: `1px solid var(--accent-color)`,
+              backgroundColor: "var(--bg-color)",
+              color: "var(--text-color)",
+            }}
+          />
+          <button
+            type="submit"
+            disabled={!content.trim()}
+            style={{
+              backgroundColor: "var(--accent-color)",
+              color: "var(--bg-color)",
+              border: "none",
+              padding: "0.75rem 1rem",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+          >
+            Add Entry
+          </button>
+        </form>
+      </div>
 
       {/* Entries list section */}
       <div>
@@ -130,37 +134,38 @@ export default function GratitudeEntries() {
           <p>No entries yet. Add one!</p>
         ) : (
           <ul style={{ listStyle: "none", padding: 0 }}>
-  {entries.map((entry) => (
-    <li
-      key={entry.id}
-      style={{
-        marginBottom: "1rem",
-        padding: "1rem",
-        borderRadius: "8px",
-        backgroundColor: "var(--bg-color)",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.1)"
-      }}
-    >
-      <strong>{new Date(entry.created_at).toLocaleDateString()}:</strong>{" "}
-      {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
-      <button
-        onClick={() => handleDelete(entry.id)}
-        style={{
-          marginLeft: "1rem",
-          backgroundColor: "red",
-          color: "#fff",
-          border: "none",
-          padding: "0.25rem 0.5rem",
-          borderRadius: "4px",
-          cursor: "pointer"
-        }}
-      >
-        Delete
-      </button>
-    </li>
-  ))}
-</ul>
-
+            {entries.map((entry) => (
+              <li
+                key={entry.id}
+                style={{
+                  marginBottom: "1rem",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  backgroundColor: "var(--bg-color)",
+                  boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
+                }}
+              >
+                <strong>
+                  {new Date(entry.created_at).toLocaleDateString()}:
+                </strong>{" "}
+                {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
+                <button
+                  onClick={() => handleDelete(entry.id)}
+                  style={{
+                    marginLeft: "1rem",
+                    backgroundColor: "red",
+                    color: "#fff",
+                    border: "none",
+                    padding: "0.25rem 0.5rem",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </div>
