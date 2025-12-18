@@ -22,8 +22,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Gratuity Jar</h1>
-
+    
       <button onClick={handleGetQuestion}>Help me out</button>
 
       {loading && <p>Loading...</p>}
