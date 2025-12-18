@@ -17,7 +17,7 @@ export default function requireUser(req, res, next) {
 
   try {
     const payload = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = { id: payload.userId, email: payload.email };
+    req.user = { id: payload.id, email: payload.email };
     next();
   } catch (err) {
     console.error(err);
