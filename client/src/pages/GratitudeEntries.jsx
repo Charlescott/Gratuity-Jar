@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-export default function GratitudeEntries() {
+export default function GratitudeEntries({ token }) {
   const [entries, setEntries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -35,8 +35,13 @@ export default function GratitudeEntries() {
   // handle Delete
   async function handleDelete(id) {
     try {
+      const token = localStorage.getItem("token");
       const res = await fetch(`http://localhost:5000/entries/${id}`, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
       });
       if (!res.ok) throw new Error("Failed to delete entry");
 
@@ -50,7 +55,11 @@ export default function GratitudeEntries() {
   useEffect(() => {
     async function fetchEntries() {
       try {
-        const res = await fetch("http://localhost:5000/entries");
+        const res = await fetch("http://localhost:5000/entries", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         if (!res.ok) throw new Error("Failed to fetch entries");
         const data = await res.json();
         setEntries(data);
