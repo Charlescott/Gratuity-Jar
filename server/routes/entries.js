@@ -4,10 +4,11 @@ import requireUser from "../middleware/requireUser.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", requireUser, async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM gratitude_entries ORDER BY created_at DESC"
+      "SELECT * FROM gratitude_entries WHERE user_id =$1 ORDER BY created_at DESC",
+      [req.user.id]
     );
     res.json(result.rows);
   } catch (err) {
@@ -33,12 +34,12 @@ router.get("/:id", requireUser, async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
-  const { user_id, content, mood_tag } = req.body;
+router.post("/", requireUser, async (req, res) => {
+  const { content, mood_tag } = req.body;
   try {
     const result = await pool.query(
       "INSERT INTO gratitude_entries (user_id, content, mood_tag) VALUES ($1, $2, $3) RETURNING *",
-      [req.user_id, content, mood_tag]
+      [req.user.id, content, mood_tag]
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -66,6 +67,7 @@ router.put("/:id", requireUser, async (req, res) => {
 });
 
 router.delete("/:id", requireUser, async (req, res) => {
+  console.log("req.user.id:", req.user.id, "entry id:", req.params.id);
   const { id } = req.params;
   try {
     const result = await pool.query(

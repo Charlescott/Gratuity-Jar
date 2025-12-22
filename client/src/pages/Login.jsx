@@ -3,7 +3,6 @@ import { useState } from "react";
 export default function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   async function handleSubmit(e) {
@@ -30,9 +29,14 @@ export default function Login({ onLogin }) {
     <div>
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
-        input placeholder="Email" type="email" valut={email}
-        onChange={(e) => setEmail(e.target.value)}
-        required
+        <input
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+
         <input
           placeholder="Password"
           type="password"

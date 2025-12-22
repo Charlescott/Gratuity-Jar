@@ -14,17 +14,31 @@ function App() {
     localStorage.setItem("token", newToken);
   }
 
+  function handleLogout() {
+    setToken("");
+    localStorage.removeItem("token");
+  }
+
   return (
     <Router>
-      <Header token={token} setToken={setToken} />
+      <Header token={token} onLogout={handleLogout} />
       <div
         style={{ maxWidth: "800px", margin: "2rem auto", padding: "0 1rem" }}
       >
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/entries" element={<GratitudeEntries />} />
+          <Route
+            path="/entries"
+            element={
+              token ? (
+                <GratitudeEntries token={token} />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            }
+          />
           <Route path="/register" element={<Register />} />
-          <Route pth="/login" element={<Login onLogin={handleLogin} />} />
+          <Route path="/login" element={<Login onLogin={handleLogin} />} />
         </Routes>
       </div>
     </Router>

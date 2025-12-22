@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-export default function Header({ token, setToken }) {
+export default function Header({ token, onLogout }) {
   const [theme, setTheme] = useState("light");
   const navigate = useNavigate();
 
@@ -12,13 +12,13 @@ export default function Header({ token, setToken }) {
   };
 
   const handleLogout = () => {
-    setToken("");
-    localStorage.removeItem("token");
+    onLogout();
     navigate("/"); // send user back to home
   };
 
   return (
     <header
+      className="header"
       style={{
         backgroundColor: "#f2f2f2",
         padding: "1rem",
@@ -41,7 +41,10 @@ export default function Header({ token, setToken }) {
           <Link to="/" style={{ marginRight: "1rem", fontWeight: "bold" }}>
             Home
           </Link>
-          <Link to="/entries" style={{ marginRight: "1rem", fontWeight: "bold" }}>
+          <Link
+            to="/entries"
+            style={{ marginRight: "1rem", fontWeight: "bold" }}
+          >
             Entries
           </Link>
 
@@ -51,7 +54,10 @@ export default function Header({ token, setToken }) {
             </button>
           ) : (
             <>
-              <Link to="/login" style={{ marginRight: "1rem", fontWeight: "bold" }}>
+              <Link
+                to="/login"
+                style={{ marginRight: "1rem", fontWeight: "bold" }}
+              >
                 Login
               </Link>
               <Link to="/register" style={{ fontWeight: "bold" }}>
