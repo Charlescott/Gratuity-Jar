@@ -1,96 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import logo from "../assets/logo.png";
 
-export default function Home({ token }) {
-  const navigate = useNavigate();
+export default function Home() {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const t = setTimeout(() => setVisible(true), 200);
+    return () => clearTimeout(t);
+  }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        minHeight: "70vh",
-        padding: "2rem 1rem",
-      }}
-    >
-      <h2 style={{ fontSize: "2.5rem", marginBottom: "1rem" }}>
-        Welcome to Gratuity Jar
-      </h2>
-      <p
-        style={{ fontSize: "1.25rem", marginBottom: "2rem", maxWidth: "500px" }}
-      >
-        Capture your gratitude, reflect on your day, and cultivate positivity.
-      </p>
+    <div className="home">
+      <img
+        src={logo}
+        alt="Gratuity Jar logo"
+        className={`home-logo ${visible ? "show" : ""}`}
+      />
 
-      {/* Conditional buttons */}
-      {token ? (
-        <button
-          onClick={() => navigate("/entries")}
-          style={{
-            backgroundColor: "var(--accent-color)",
-            color: "var(--bg-color)",
-            border: "none",
-            borderRadius: "8px",
-            padding: "0.75rem 1.5rem",
-            fontSize: "1rem",
-            cursor: "pointer",
-            marginBottom: "1rem",
-          }}
-        >
-          View My Entries
-        </button>
-      ) : (
-        <>
-          <button
-            onClick={() => navigate("/register")}
-            style={{
-              backgroundColor: "var(--accent-color)",
-              color: "var(--bg-color)",
-              border: "none",
-              borderRadius: "8px",
-              padding: "0.75rem 1.5rem",
-              fontSize: "1rem",
-              cursor: "pointer",
-              marginBottom: "1rem",
-            }}
-          >
-            Get Started
-          </button>
-          <button
-            onClick={() => navigate("/login")}
-            style={{
-              backgroundColor: "transparent",
-              color: "var(--accent-color)",
-              border: `2px solid var(--accent-color)`,
-              borderRadius: "8px",
-              padding: "0.75rem 1.5rem",
-              fontSize: "1rem",
-              cursor: "pointer",
-            }}
-          >
-            Login
-          </button>
-        </>
-      )}
+      <h1>Gratuity Jar</h1>
 
-      {/* Help Me Out button */}
-      <button
-        onClick={() => navigate("/entries")} // or fetch a random question
-        style={{
-          marginTop: "2rem",
-          backgroundColor: "var(--accent-color)",
-          color: "var(--bg-color)",
-          border: "none",
-          borderRadius: "8px",
-          padding: "0.75rem 1.5rem",
-          fontSize: "1rem",
-          cursor: "pointer",
-        }}
-      >
-        Help Me Out
-      </button>
+      <p className="tagline">A simple place to pause and notice what’s good.</p>
+
+      <button className="primary">Start journaling</button>
     </div>
   );
 }
