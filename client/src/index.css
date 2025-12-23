@@ -43,20 +43,30 @@ body {
   max-width: 800px;
 }
 
-.primary-btn {
-  background: linear-gradient(135deg, #4fa9ff, #4fd1a5);
+.primary {
+  background: linear-gradient(135deg, #3b82f6, #22c55e);
   color: white;
-  padding: 0.75rem 1.5rem;
+  border: none;
   border-radius: 999px;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 8px 20px rgba(79, 169, 255, 0.25);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  padding: 0.9rem 2.2rem;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  cursor: pointer;
+
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
-.primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(79, 169, 255, 0.35);
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+  opacity: 0.95;
+}
+
+.primary:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
 
 .icon-btn {
@@ -72,23 +82,18 @@ body {
 }
 
 .home-logo {
-  width: 200px;         /* ← THIS prevents “giant logo syndrome” */
-  max-width: 70%;
-  margin-bottom: 1.5rem;
-
+  width: 260px;
+  max-width: 70vw;
   opacity: 0;
-  transform: translateY(10px) scale(0.97);
-  transition:
-    opacity 700ms ease,
-    transform 700ms ease;
+  transform: translateY(10px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .home-logo.show {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .home-logo:hover {
   transform: scale(1.06);
 }
-

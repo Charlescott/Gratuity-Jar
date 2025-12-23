@@ -9,6 +9,8 @@ import { useState } from "react";
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
 
+  const isAuthenticated = Boolean(token);
+
   function handleLogin(newToken) {
     setToken(newToken);
     localStorage.setItem("token", newToken);
@@ -21,16 +23,19 @@ function App() {
 
   return (
     <Router>
-      <Header token={token} onLogout={handleLogout} />
+      <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
       <div
         style={{ maxWidth: "800px", margin: "2rem auto", padding: "0 1rem" }}
       >
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home isAuthenticated={isAuthenticated} />}
+          />
           <Route
             path="/entries"
             element={
-              token ? (
+              isAuthenticated ? (
                 <GratitudeEntries token={token} />
               ) : (
                 <Login onLogin={handleLogin} />

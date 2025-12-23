@@ -8,6 +8,8 @@ export default function Header({ token, onLogout }) {
 
   const isHome = location.pathname === "/";
 
+  const isAuthenticated = Boolean(token);
+
   const toggleTheme = () => {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
@@ -36,16 +38,15 @@ export default function Header({ token, onLogout }) {
           {theme === "light" ? "🌙" : "☀️"}
         </button>
 
-        {!isHome && (
-          token ? (
+        {!isHome &&
+          (isAuthenticated ? (
             <button onClick={onLogout}>Logout</button>
           ) : (
             <>
               <Link to="/login">Login</Link>
               <Link to="/register">Register</Link>
             </>
-          )
-        )}
+          ))}
       </div>
     </header>
   );
