@@ -81,88 +81,48 @@ export default function GratitudeEntries({ token }) {
       <h1>Gratuity Jar</h1>
 
       {/* Form section */}
-      <div className="main-content">
-        <h2>Add a Gratitude Entry</h2>
-        <form
-          onSubmit={handleSubmit}
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "1rem",
-            marginBottom: "2rem",
-          }}
-        >
-          <textarea
-            id="content"
-            value={content}
-            onChange={(e) => setContent(e.target.value)}
-            placeholder="What are you grateful for?"
-            required
-            style={{
-              padding: "0.75rem",
-              borderRadius: "5px",
-              border: `1px solid var(--accent-color)`,
-              backgroundColor: "var(--bg-color)",
-              color: "var(--text-color)",
-            }}
-          />
-          <input
-            type="text"
-            value={moodTag}
-            onChange={(e) => setMoodTag(e.target.value)}
-            placeholder="Mood (optional)"
-            style={{
-              padding: "0.5rem",
-              borderRadius: "5px",
-              border: `1px solid var(--accent-color)`,
-              backgroundColor: "var(--bg-color)",
-              color: "var(--text-color)",
-            }}
-          />
-          <button
-            type="submit"
-            disabled={!content.trim()}
-            style={{
-              backgroundColor: "var(--accent-color)",
-              color: "var(--bg-color)",
-              border: "none",
-              padding: "0.75rem 1rem",
-              borderRadius: "5px",
-              cursor: "pointer",
-            }}
-          >
-            Add Entry
-          </button>
-        </form>
-      </div>
+      <div className="entries=container">
+        <div className="entry-card">
+          <h2>Add a Gratitude Entry</h2>
+          <form onSubmit={handleSubmit}>
+            <textarea
+              id="content"
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
+              placeholder="What are you grateful for?"
+              required
+            />
+            <input
+              type="text"
+              value={moodTag}
+              onChange={(e) => setMoodTag(e.target.value)}
+              placeholder="Mood (optional)"
+            />
+            <button type="submit" disabled={!content.trim()}>
+              Add Entry
+            </button>
+          </form>
+        </div>
 
-      {/* Entries list section */}
-      <div>
-        <h2>Your Entries</h2>
-        {entries.length === 0 ? (
-          <p>No entries yet. Add one!</p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {entries.map((entry) => (
-              <li
-                key={entry.id}
-                style={{
-                  marginBottom: "1rem",
-                  padding: "1rem",
-                  borderRadius: "8px",
-                  backgroundColor: "var(--bg-color)",
-                  boxShadow: "0 1px 4px rgba(0,0,0,0.1)",
-                }}
-              >
-                <strong>
-                  {new Date(entry.created_at).toLocaleDateString()}:
-                </strong>{" "}
-                {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
-                <button class="delete-btn">Delete</button>
-              </li>
-            ))}
-          </ul>
-        )}
+        {/* Entries list section */}
+        <div>
+          <h2>Your Entries</h2>
+          {entries.length === 0 ? (
+            <p>No entries yet. Add one!</p>
+          ) : (
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {entries.map((entry) => (
+                <li key={entry.id}>
+                  <strong>
+                    {new Date(entry.created_at).toLocaleDateString()}:
+                  </strong>{" "}
+                  {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
+                  <button class="delete-btn">Delete</button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
     </div>
   );

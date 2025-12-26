@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 export default function Header({ token, onLogout, theme, setTheme }) {
   const location = useLocation();
@@ -20,8 +21,8 @@ export default function Header({ token, onLogout, theme, setTheme }) {
     >
       {/* Left */}
       {!isHome && (
-        <Link to="/" style={{ fontWeight: 700, textDecoration: "none" }}>
-          Gratuity Jar
+        <Link to="/">
+          <img src={logo} alt="Gratuity Jar logo" style={{ height: "90px" }} />
         </Link>
       )}
 
