@@ -5,7 +5,7 @@ export default function GratitudeEntries({ token }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [content, setContent] = useState("");
-  const [moodTag, setMoodTag] = useState("");
+  const [mood, setMood] = useState("");
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -100,13 +100,24 @@ export default function GratitudeEntries({ token }) {
             placeholder="What are you grateful for?"
             required
           />
-          <input
-            type="text"
-            value={moodTag}
-            onChange={(e) => setMoodTag(e.target.value)}
-            placeholder="Mood (optional)"
-          />
-          <button className="btn btn-secondary" type="submit" disabled={!content.trim()}>
+          <select
+            className="input"
+            value={mood}
+            onChange={(e) => setMood(e.target.value)}
+          >
+            <option value="">Mood (optional)</option>
+            <option value="happy">😊 Happy</option>
+            <option value="calm">😌 Calm</option>
+            <option value="neutral">😐 Neutral</option>
+            <option value="low">😔 Low</option>
+            <option value="stressed">😤 Stressed</option>
+            <option value="grateful">🙏 Grateful</option>
+          </select>
+          <button
+            className="btn btn-secondary"
+            type="submit"
+            disabled={!content.trim()}
+          >
             Add Entry
           </button>
         </form>
