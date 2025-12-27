@@ -24,9 +24,18 @@ export default function GratitudeEntries({ token }) {
       if (!res.ok) throw new Error("Failed to add entry");
 
       const newEntry = await res.json();
-      setEntries((prev) => [newEntry, ...entries]);
+      setEntries((prev) => [{ ...newEntry, show: false }, ...prev]);
       setContent("");
       setMoodTag("");
+
+      // trigger animation in next tick
+      setTimeout(() => {
+        setEntries((prev) =>
+          prev.map((entry) =>
+            entry.id === newEntry.id ? { ...entry, show: true } : entry
+          )
+        );
+      }, 50);
     } catch (err) {
       setError(err.message);
     }
@@ -62,7 +71,7 @@ export default function GratitudeEntries({ token }) {
         });
         if (!res.ok) throw new Error("Failed to fetch entries");
         const data = await res.json();
-        setEntries(data);
+        setEntries(data.map((entry) => ({ ...entry, show: true })));
       } catch (err) {
         setError(err.message);
       } finally {
@@ -71,58 +80,66 @@ export default function GratitudeEntries({ token }) {
     }
 
     fetchEntries();
-  }, []);
+  }, [token]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
 
   return (
-    <div>
+    <div className="entries-container">
       <h1>Gratuity Jar</h1>
 
       {/* Form section */}
-      <div className="entries=container">
-        <div className="entry-card">
-          <h2>Add a Gratitude Entry</h2>
-          <form onSubmit={handleSubmit}>
-            <textarea
-              id="content"
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              placeholder="What are you grateful for?"
-              required
-            />
-            <input
-              type="text"
-              value={moodTag}
-              onChange={(e) => setMoodTag(e.target.value)}
-              placeholder="Mood (optional)"
-            />
-            <button type="submit" disabled={!content.trim()}>
-              Add Entry
-            </button>
-          </form>
-        </div>
+      <div className="entry-card">
+        <h2>Add a Gratitude Entry</h2>
+        <form onSubmit={handleSubmit}>
+          <textarea
+            id="content"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="What are you grateful for?"
+            required
+          />
+          <input
+            type="text"
+            value={moodTag}
+            onChange={(e) => setMoodTag(e.target.value)}
+            placeholder="Mood (optional)"
+          />
+          <button className="btn btn-secondary" type="submit" disabled={!content.trim()}>
+            Add Entry
+          </button>
+        </form>
+      </div>
 
-        {/* Entries list section */}
-        <div>
-          <h2>Your Entries</h2>
-          {entries.length === 0 ? (
-            <p>No entries yet. Add one!</p>
-          ) : (
-            <ul style={{ listStyle: "none", padding: 0 }}>
-              {entries.map((entry) => (
-                <li key={entry.id}>
+      {/* Entries list section */}
+      <div>
+        <h2>Your Entries</h2>
+        {entries.length === 0 ? (
+          <p>No entries yet. Add one!</p>
+        ) : (
+          <ul style={{ listStyle: "none", padding: 0 }}>
+            {entries.map((entry) => (
+              <li
+                key={entry.id}
+                className={`entry-item ${entry.show ? "show" : ""}`}
+              >
+                <div className="entry-item-content">
                   <strong>
                     {new Date(entry.created_at).toLocaleDateString()}:
                   </strong>{" "}
                   {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
-                  <button class="delete-btn">Delete</button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+                </div>
+                <button
+                  className="delete-btn"
+                  onClick={() => handleDelete(entry.id)}
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
     </div>
   );

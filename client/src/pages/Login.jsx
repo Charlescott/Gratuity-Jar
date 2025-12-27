@@ -44,7 +44,9 @@ export default function Login({ onLogin }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Login</button>
+        <button className="btn-secondary" type="submit">
+          Login
+        </button>
       </form>
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>

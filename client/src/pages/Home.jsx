@@ -34,7 +34,7 @@ export default function Home({ isAuthenticated }) {
       </p>
 
       <button
-        className={`primary-btn ${showButton ? "show" : ""}`}
+        className="btn-primary"
         onClick={() => navigate("/entries")}
       >
         Start journaling

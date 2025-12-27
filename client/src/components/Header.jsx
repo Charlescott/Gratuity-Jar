@@ -34,7 +34,7 @@ export default function Header({ token, onLogout, theme, setTheme }) {
 
         {!isHome &&
           (isAuthenticated ? (
-            <button onClick={onLogout}>Logout</button>
+            <button className="btn-primary" onClick={onLogout}>Logout</button>
           ) : (
             <>
               <Link to="/login">Login</Link>
