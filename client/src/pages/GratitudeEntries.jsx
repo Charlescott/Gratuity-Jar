@@ -6,6 +6,14 @@ export default function GratitudeEntries({ token }) {
   const [error, setError] = useState(null);
   const [content, setContent] = useState("");
   const [mood, setMood] = useState("");
+  const MOOD_MAP = {
+    happy: "😊",
+    calm: "😌",
+    neutral: "😐",
+    low: "😔",
+    stressed: "😤",
+    grateful: "🙏",
+  };
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -139,7 +147,12 @@ export default function GratitudeEntries({ token }) {
                   <strong>
                     {new Date(entry.created_at).toLocaleDateString()}:
                   </strong>{" "}
-                  {entry.content} {entry.mood_tag && `(${entry.mood_tag})`}
+                  {entry.content}
+                  {entry.mood && (
+                    <span className="entry-mood">
+                      {MOOD_MAP[entry.mood] ?? "🙂"}
+                    </span>
+                  )}
                 </div>
                 <button
                   className="delete-btn"
