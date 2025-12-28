@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { getRandomQuestion } from "../api/questions";
 
 export default function GratitudeEntries({ token }) {
   const [entries, setEntries] = useState([]);
@@ -6,6 +7,8 @@ export default function GratitudeEntries({ token }) {
   const [error, setError] = useState(null);
   const [content, setContent] = useState("");
   const [mood, setMood] = useState("");
+  const [prompt, setPrompt] = useState(null);
+  const [loadingPrompt, setLoadingPrompt] = useState(false);
   const MOOD_MAP = {
     happy: "😊",
     calm: "😌",
@@ -14,6 +17,18 @@ export default function GratitudeEntries({ token }) {
     stressed: "😤",
     grateful: "🙏",
   };
+
+  async function handleHelpMeOut() {
+    setLoadingPrompt(true);
+    try {
+      const question = await getRandomQuestion();
+      setPrompt(question.text);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingPrompt(false);
+    }
+  }
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -105,9 +120,13 @@ export default function GratitudeEntries({ token }) {
             id="content"
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            placeholder="What are you grateful for?"
+            placeholder={content ? "" : prompt || "Write something..."}
             required
           />
+
+          <button type="button" className="btn-help" onClick={handleHelpMeOut}>
+            {loadingPrompt ? "Thinking…" : "Help me out"}
+          </button>
           <select
             className="input"
             value={mood}
