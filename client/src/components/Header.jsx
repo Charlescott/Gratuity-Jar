@@ -13,36 +13,32 @@ export default function Header({ token, onLogout, theme, setTheme }) {
   return (
     <header
       style={{
-        padding: "1rem",
+        padding: "1rem 2rem",
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
       }}
     >
       {/* Left */}
-      {!isHome && (
+      {!isHome ? (
         <Link to="/">
-          <img src={logo} alt="Gratuity Jar logo" style={{ height: "90px" }} />
+          <img
+            src={logo}
+            alt="Gratuity Jar logo"
+            style={{ height: "80px" }}
+          />
         </Link>
+      ) : (
+        <div /> // spacer to keep layout balanced
       )}
 
       {/* Right */}
-      <div style={{ display: "flex", alignItems: "center", gap: "6rem" }}>
-        {!isHome &&
-          (isAuthenticated ? (
-            <button className="btn btn-secondary" onClick={onLogout}>
-              Logout
-            </button>
-          ) : (
-            <>
-              <Link className="btn btn-secondary" to="/login">
-                Login
-              </Link>
-              <Link className="btn btn-secondary" to="/register">
-                Register
-              </Link>
-            </>
-          ))}
+      <div style={{ display: "flex", alignItems: "center", gap: "1.5rem" }}>
+        {isAuthenticated && (
+          <button className="btn btn-secondary" onClick={onLogout}>
+            Logout
+          </button>
+        )}
 
         <button onClick={toggleTheme} className="icon-btn">
           {theme === "light" ? "🌙" : "☀️"}

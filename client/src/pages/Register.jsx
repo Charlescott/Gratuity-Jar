@@ -30,7 +30,7 @@ export default function Register() {
   }
 
   return (
-    <div className="entry-card">
+    <div className="entry-card entries-container">
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <input
