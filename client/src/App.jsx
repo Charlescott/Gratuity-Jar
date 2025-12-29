@@ -6,12 +6,11 @@ import Home from "./pages/Home";
 import GratitudeEntries from "./pages/GratitudeEntries";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-
-
+import RemindersPage from "./pages/Reminders";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const isAuthenticated = Boolean(token);
 
   function handleLogin(newToken) {
@@ -24,15 +23,10 @@ function App() {
     localStorage.removeItem("token");
   }
 
- 
-
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem("theme", theme);
-  },
-    [theme]);
-
-
+  }, [theme]);
 
   return (
     <Router>
@@ -57,6 +51,7 @@ function App() {
         />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/reminders" element={<RemindersPage />} />
       </Routes>
     </Router>
   );
