@@ -30,7 +30,7 @@ export default function Register() {
   }
 
   return (
-    <div className="entry-card entries-container">
+    <div>
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <input
@@ -53,7 +53,7 @@ export default function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button className="btn btn-secondary" type="submit">Register</button>
+        <button type="submit">Register</button>
       </form>
       {message && <p>{message}</p>}
     </div>
