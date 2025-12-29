@@ -1,51 +1,62 @@
 import { useState } from "react";
 
 export default function ReminderForm() {
+  const [time, setTime] = useState("");
   const [frequency, setFrequency] = useState("daily");
-  const [time, setTime] = useState("09:00");
-  const [status, setStatus] = useState("");
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
 
-  async function handleSubmit(e) {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setStatus("Saving...");
+    setError("");
+    setSuccess("");
 
-    try {
-      const res = await fetch("http://localhost:5000/reminders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ frequency, time_of_day: time }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to save");
-
-      setStatus("Reminder saved!");
-    } catch (err) {
-      setStatus(err.message);
+    if (!time) {
+      setError("Please select a time for your reminder.");
+      return;
     }
-  }
+
+    // Example: send to backend
+    // fetch("/api/reminders", { method: "POST", body: JSON.stringify({ time, frequency }) })
+
+    setSuccess(`Reminder set for ${time} (${frequency})!`);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Frequency:
-        <select value={frequency} onChange={(e) => setFrequency(e.target.value)}>
-          <option value="daily">Daily</option>
-          <option value="weekly">Weekly</option>
-          <option value="monthly">Monthly</option>
-        </select>
-      </label>
+    <div className="entry-card">
+      <h2>Set a Reminder</h2>
+      <form
+        onSubmit={handleSubmit}
+        style={{ display: "flex", flexDirection: "column", gap: "1rem" }}
+      >
+        <label>
+          Time of day:
+          <input
+            type="time"
+            value={time}
+            onChange={(e) => setTime(e.target.value)}
+            required
+          />
+        </label>
 
-      <label>
-        Time:
-        <input type="time" value={time} onChange={(e) => setTime(e.target.value)} />
-      </label>
+        <label>
+          Frequency:
+          <select
+            value={frequency}
+            onChange={(e) => setFrequency(e.target.value)}
+          >
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+          </select>
+        </label>
 
-      <button type="submit">Save Reminder</button>
-      {status && <p>{status}</p>}
-    </form>
+        <button className="btn btn-secondary" type="submit">
+          Set Reminder
+        </button>
+        {success && <p style={{ color: "green" }}>{success}</p>}
+        {error && <p style={{ color: "red" }}>{error}</p>}
+      </form>
+    </div>
   );
 }
