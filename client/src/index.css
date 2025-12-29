@@ -135,12 +135,49 @@ a:hover {
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18);
 }
 
+.btn-help {
+  background: transparent;
+  border: 1px solid rgba(255, 127, 80, 0.35);
+  color: rgba(255, 127, 80, 0.75);
+  font-size: 0.85rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  cursor: pointer;
+  align-self: flex-start;
+
+  transition: all 0.3s ease;
+}
+
+.btn-help:hover {
+  background: rgba(255, 127, 80, 0.08);
+  color: rgba(255, 127, 80, 1);
+  border-color: rgba(255, 127, 80, 0.6);
+}
+
 /* Icon buttons */
 .icon-btn {
   background: transparent;
   border: none;
-  font-size: 1.25rem;
+  padding: 0.25rem 0.5rem;
+
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--accent-color);
+
   cursor: pointer;
+  opacity: 0.8;
+
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.icon-btn:hover {
+  opacity: 1;
+  text-decoration: underline;
+  transform: translateY(-1px);
+}
+
+.icon-btn:active {
+  transform: translateY(0);
 }
 
 /* =====================================================
@@ -237,12 +274,12 @@ textarea:focus {
   position: absolute;
   inset: 0;
   background: radial-gradient(
-      700px circle at 50% 35%,
+      700px circle at 50% 5%,
       rgba(59, 130, 246, 0.18),
       transparent 60%
     ),
     radial-gradient(
-      700px circle at 50% 65%,
+      700px circle at 50% 95%,
       rgba(34, 197, 94, 0.18),
       transparent 60%
     );
@@ -411,4 +448,46 @@ select.input {
   background: rgba(255, 127, 80, 0.08);
   color: rgba(255, 127, 80, 1);
   border-color: rgba(255, 127, 80, 0.7);
+}
+
+.prompt-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.prompt-overlay {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.9rem;
+  right: 0.9rem;
+  color: #94a3b8;
+  font-size: 0.95rem;
+  pointer-events: none;
+  opacity: 0;
+  animation: promptFadeIn 1.8s ease forwards;
+}
+
+@keyframes promptFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+[data-theme="dark"] .prompt-overlay {
+  color: rgba(226, 232, 240, 0.65);
+}
+
+/* Normalize browser autofill styling */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-color) inset;
+  -webkit-text-fill-color: var(--text-color);
+  transition: background-color 9999s ease-in-out 0s;
 }

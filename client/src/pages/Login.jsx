@@ -6,9 +6,13 @@ export default function AuthForm({ onLogin }) {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (loading) return;
+
+    setLoading(true);
     setError("");
 
     const endpoint = isLogin
@@ -30,6 +34,7 @@ export default function AuthForm({ onLogin }) {
       onLogin(data.token);
     } catch (err) {
       setError(err.message);
+      setLoading(false);
     }
   }
 
@@ -65,8 +70,14 @@ export default function AuthForm({ onLogin }) {
           required
         />
 
-        <button className="btn btn-secondary" type="submit">
-          {isLogin ? "Login" : "Register"}
+        <button className="btn btn-secondary" type="submit" disabled={loading}>
+          {loading
+            ? isLogin
+              ? "Logging in..."
+              : "Creating account..."
+            : isLogin
+            ? "Login"
+            : "Register"}
         </button>
       </form>
 
@@ -77,7 +88,7 @@ export default function AuthForm({ onLogin }) {
           className="icon-btn"
           onClick={() => setIsLogin((prev) => !prev)}
         >
-          {isLogin ? "Create one" : "Login instead"}
+          {isLogin ? "Register" : "Login instead"}
         </button>
       </p>
 
