@@ -1,6 +1,6 @@
 // cron/reminders.js
 import cron from "node-cron";
-import pool from "../db/index.js"; // safe if db is independent
+import pool from "../db/index.js"; 
 import { sendReminderEmail } from "../routes/mailer.js";
 
 export function scheduleReminders() {

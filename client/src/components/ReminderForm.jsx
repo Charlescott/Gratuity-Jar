@@ -5,6 +5,7 @@ export default function ReminderForm() {
   const [frequency, setFrequency] = useState("daily");
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [active, setActive] = useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,6 +50,14 @@ export default function ReminderForm() {
             <option value="weekly">Weekly</option>
             <option value="monthly">Monthly</option>
           </select>
+        </label>
+        <label style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+          <input
+            type="checkbox"
+            checked={active}
+            onChange={(e) => setActive(e.target.checked)}
+          />
+          Enable reminders
         </label>
 
         <button className="btn btn-secondary" type="submit">

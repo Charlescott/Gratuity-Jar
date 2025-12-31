@@ -7,7 +7,8 @@ export default function RemindersPage() {
 
       <div className="reminders-container">
         <p style={{ marginBottom: "1rem", color: "var(--muted-text)" }}>
-          Choose when and how often you want to be prompted to fill out your gratitude notes.
+          Choose when and how often you want to be prompted to fill out your
+          gratitude notes.
         </p>
         <ReminderForm />
       </div>

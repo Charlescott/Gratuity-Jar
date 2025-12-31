@@ -2,10 +2,11 @@
 import cron from "node-cron";
 import pool from "./db/index.js";
 import { sendReminderEmail } from "./mailer.js";
+import { DateTime } from "luxon";
 
 // Check every minute
 cron.schedule("* * * * *", async () => {
-  const now = new Date();
+  const nowUtc = new DateTime.utc();
 
   // Query reminders for this exact time (ignore seconds)
   const result = await pool.query(
@@ -20,14 +21,21 @@ cron.schedule("* * * * *", async () => {
   );
 
   for (let reminder of result.rows) {
-    try {
-      await sendReminderEmail(reminder.email, reminder.name);
-      await pool.query(
-        "UPDATE user_reminders SET last_sent = NOW() WHERE id = $1",
-        [reminder.id]
-      );
-    } catch (err) {
-      console.error("Failed to send reminder for user:", reminder.user_id, err);
-    }
+    const userNow = nowUtc.setZone(reminder.timezone);
+
+    if (userNow.hour === reminderHour && userNow.minute === reminderMinute)
+      try {
+        await sendReminderEmail(reminder.email, reminder.name);
+        await pool.query(
+          "UPDATE user_reminders SET last_sent = NOW() WHERE id = $1",
+          [reminder.id]
+        );
+      } catch (err) {
+        console.error(
+          "Failed to send reminder for user:",
+          reminder.user_id,
+          err
+        );
+      }
   }
 });

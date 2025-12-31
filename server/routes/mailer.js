@@ -8,7 +8,11 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendReminderEmail(to, message) {
+export async function sendReminderEmail(to, name) {
+  const message = `Hi ${
+    name || "there"
+  }, \n\nIt's time to add a gratitude entry!`;
+
   await transporter.sendMail({
     from: process.env.EMAIL_FROM,
     to,

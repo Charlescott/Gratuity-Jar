@@ -7,7 +7,7 @@ const router = express.Router();
 
 // Create or update reminder
 router.post("/", requireUser, async (req, res) => {
-  const { frequency, time_of_day } = req.body;
+  const { frequency, time_of_day, active } = req.body;
   const userId = req.user.id;
 
   try {
@@ -15,7 +15,7 @@ router.post("/", requireUser, async (req, res) => {
       `INSERT INTO user_reminders (user_id, frequency, time_of_day)
        VALUES ($1, $2, $3)
        ON CONFLICT (user_id) 
-       DO UPDATE SET frequency = $2, time_of_day = $3
+       DO UPDATE SET frequency = $2, time_of_day = $3, active = $4
        RETURNING *`,
       [userId, frequency, time_of_day]
     );

@@ -37,3 +37,7 @@ CREATE TABLE user_reminders (
     last_sent TIMESTAMP,             -- track last sent reminder
     active BOOLEAN DEFAULT TRUE      -- in case user wants to pause reminders
 );
+
+ALTER TABLE user_reminders
+ADD COLUMN timezone TEXT DEFAULT 'UTC';
+ADD COLUMN active BOOLEAN DEFAULT true;
