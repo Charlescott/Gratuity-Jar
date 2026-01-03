@@ -4,7 +4,7 @@ import pool from "../db/index.js";
 import { sendReminderEmail } from "../routes/mailer.js";
 
 export function scheduleReminders() {
-  cron.schedule("*/1 * * * *", async () => {
+  cron.schedule("*/10 * * * *", async () => {
     try {
       console.log("Running cron job...");
 

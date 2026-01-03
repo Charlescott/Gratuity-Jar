@@ -6,6 +6,7 @@ import questionsRouter from "./routes/questions.js";
 import authRouter from "./routes/auth.js";
 import entriesRouter from "./routes/entries.js";
 import { scheduleReminders } from "./db/reminderCron.js"
+import remindersRouter from "./routes/reminders.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/reminders", remindersRouter);
 
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
