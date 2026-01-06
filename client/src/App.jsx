@@ -29,18 +29,32 @@ function AppRoutes({ token, setToken, theme, setTheme }) {
     navigate("/");
   }
 
+  // get current path to conditionally render Header
+  const currentPath = window.location.pathname;
+  const showHeader = currentPath !== "/";
+
   return (
     <>
-      <Header
-        token={token}
-        onLogout={handleLogout}
-        theme={theme}
-        setTheme={setTheme}
-      />
+      {showHeader && (
+        <Header
+          token={token}
+          onLogout={handleLogout}
+          theme={theme}
+          setTheme={setTheme}
+        />
+      )}
 
       <Routes>
-        <Route path="/" element={<Home isAuthenticated={isAuthenticated} />} />
-
+        <Route
+          path="/"
+          element={
+            <Home
+              isAuthenticated={isAuthenticated}
+              theme={theme}
+              setTheme={setTheme} // pass theme toggle to Home
+            />
+          }
+        />
         <Route
           path="/entries"
           element={
@@ -51,24 +65,19 @@ function AppRoutes({ token, setToken, theme, setTheme }) {
             )
           }
         />
-
         <Route
           path="/reminders"
           element={
-            isAuthenticated ? (
-              <RemindersPage />
-            ) : (
-              <Login onLogin={handleLogin} />
-            )
+            isAuthenticated ? <RemindersPage /> : <Login onLogin={handleLogin} />
           }
         />
-
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </>
   );
 }
+
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");

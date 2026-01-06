@@ -108,7 +108,7 @@ export default function Header({ token, onLogout, theme, setTheme }) {
                 onClick={() => setProfileOpen(false)}
                 style={{ padding: "0.5rem 1rem" }}
               >
-                Settings
+                Circles
               </Link>
               <button
                 onClick={() => {
