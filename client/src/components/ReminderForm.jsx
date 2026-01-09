@@ -27,7 +27,7 @@ export default function ReminderForm({ reminder, onSave }) {
 
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("http://localhost:5000/reminders", {
+      const res = await fetch("https://gratuity-jar-api.onrender.com/reminders", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

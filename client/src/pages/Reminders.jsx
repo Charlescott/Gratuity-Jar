@@ -10,7 +10,7 @@ export default function RemindersPage() {
     async function fetchReminder() {
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch("http://localhost:5000/reminders", {
+        const res = await fetch("https://gratuity-jar-api.onrender.com/reminders", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
