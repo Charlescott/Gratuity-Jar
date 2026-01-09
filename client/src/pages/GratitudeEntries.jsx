@@ -38,7 +38,7 @@ export default function GratitudeEntries({ token }) {
     if (!token) return;
 
     try {
-      const res = await fetch("http://localhost:5000/entries", {
+      const res = await fetch("https://gratuity-jar-api.onrender.com/entries", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -69,7 +69,7 @@ export default function GratitudeEntries({ token }) {
   // Delete entry
   async function handleDelete(id) {
     try {
-      const res = await fetch(`http://localhost:5000/entries/${id}`, {
+      const res = await fetch(`https://gratuity-jar-api.onrender.com/entries/${id}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -88,7 +88,7 @@ export default function GratitudeEntries({ token }) {
   useEffect(() => {
     async function fetchEntries() {
       try {
-        const res = await fetch("http://localhost:5000/entries", {
+        const res = await fetch("https://gratuity-jar-api.onrender.com/entries", {
           headers: { Authorization: `Bearer ${token}` },
         });
         if (!res.ok) throw new Error("Failed to fetch entries");
