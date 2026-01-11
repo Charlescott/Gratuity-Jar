@@ -25,16 +25,30 @@ export default function ReminderForm({ reminder, onSave }) {
       return;
     }
 
+    const [hours, minutes] = time.split(":").map(Number);
+
+    const localDateObj = new Date();
+    localDateObj.setHours(hours, minutes, 0, 0);
+
+    const utcHours = localDateObj.getUTCHours();
+
+    const utcTime = `${String(utcHours).padStart(2, "0")}:${String(
+      minutes
+    ).padStart(2, "0")}`;
+
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("https://gratuity-jar-api.onrender.com/reminders", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ time_of_day: time, frequency, active }),
-      });
+      const res = await fetch(
+        "https://gratuity-jar-api.onrender.com/reminders",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ time_of_day: utcTime, frequency, active }),
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to save reminder");
 
@@ -92,8 +106,16 @@ export default function ReminderForm({ reminder, onSave }) {
           Set Reminder
         </button>
 
-        {success && <p className="reminder-status" style={{ color: "green" }}>{success}</p>}
-        {error && <p className="reminder-status" style={{ color: "red" }}>{error}</p>}
+        {success && (
+          <p className="reminder-status" style={{ color: "green" }}>
+            {success}
+          </p>
+        )}
+        {error && (
+          <p className="reminder-status" style={{ color: "red" }}>
+            {error}
+          </p>
+        )}
       </form>
     </div>
   );
