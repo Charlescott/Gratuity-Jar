@@ -12,6 +12,7 @@ import GratitudeEntries from "./pages/GratitudeEntries";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RemindersPage from "./pages/Reminders";
+import Circles from "./pages/Circles";
 
 function AppRoutes({ token, setToken, theme, setTheme }) {
   const navigate = useNavigate();
@@ -77,10 +78,10 @@ function AppRoutes({ token, setToken, theme, setTheme }) {
         />
 
         <Route
-          path="/circles"
+          path="/Circles"
           element={
             isAuthenticated ? (
-              <CirclesPage token={token} />
+              <Circles token={token} />
             ) : (
               <Login onLogin={handleLogin} />
             )
