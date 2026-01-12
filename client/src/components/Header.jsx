@@ -103,7 +103,7 @@ export default function Header({ token, onLogout, theme, setTheme }) {
                 Reminders
               </Link>
               <Link
-                to="/settings"
+                to="/circles"
                 className="dropdown-item"
                 onClick={() => setProfileOpen(false)}
                 style={{ padding: "0.5rem 1rem" }}
