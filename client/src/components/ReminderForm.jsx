@@ -25,17 +25,6 @@ export default function ReminderForm({ reminder, onSave }) {
       return;
     }
 
-    const [hours, minutes] = time.split(":").map(Number);
-
-    const localDateObj = new Date();
-    localDateObj.setHours(hours, minutes, 0, 0);
-
-    const utcHours = localDateObj.getUTCHours();
-
-    const utcTime = `${String(utcHours).padStart(2, "0")}:${String(
-      minutes
-    ).padStart(2, "0")}`;
-
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(
@@ -46,7 +35,7 @@ export default function ReminderForm({ reminder, onSave }) {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ time_of_day: utcTime, frequency, active }),
+          body: JSON.stringify({ time_of_day: time, frequency, active }),
         }
       );
 
