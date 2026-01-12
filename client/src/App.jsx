@@ -68,7 +68,22 @@ function AppRoutes({ token, setToken, theme, setTheme }) {
         <Route
           path="/reminders"
           element={
-            isAuthenticated ? <RemindersPage /> : <Login onLogin={handleLogin} />
+            isAuthenticated ? (
+              <RemindersPage />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
+          }
+        />
+
+        <Route
+          path="/circles"
+          element={
+            isAuthenticated ? (
+              <CirclesPage token={token} />
+            ) : (
+              <Login onLogin={handleLogin} />
+            )
           }
         />
         <Route path="/login" element={<Login onLogin={handleLogin} />} />
@@ -77,7 +92,6 @@ function AppRoutes({ token, setToken, theme, setTheme }) {
     </>
   );
 }
-
 
 export default function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
