@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 export default function CirclesPage() {
   const [showContent, setShowContent] = useState(false);
@@ -20,18 +20,19 @@ export default function CirclesPage() {
         </div>
 
         {/* Main content */}
-        <div className={`circles-content ${showContent ? "show" : ""}`}>
+        <div className={`circles-content ${showContent ? 'show' : ''}`}>
           <h1 className="circles-title">Circles</h1>
-
+          
           <p className="circles-description">
-            Create intimate spaces where gratitude flows freely. Circles are
-            your private communities—invite friends, family, or colleagues to
-            share moments of appreciation together. Celebrate the good in each
-            other's lives, anonymously or openly, in a warm space built for
-            connection.
+            Create intimate spaces where gratitude flows freely. Circles are your 
+            private communities—invite friends, family, or colleagues to share moments 
+            of appreciation together. Celebrate the good in each other's lives, 
+            anonymously or openly, in a warm space built for connection.
           </p>
 
-          <button className="btn btn-primary">Create Your First Circle</button>
+          <button className="btn btn-primary">
+            Create Your First Circle
+          </button>
 
           <p className="circles-hint">
             Start small. Start now. Start together.
@@ -41,7 +42,7 @@ export default function CirclesPage() {
 
       <style>{`
         .circles-page {
-          min-height: 100vh;
+          min-height: calc(100vh - 120px);
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -49,6 +50,7 @@ export default function CirclesPage() {
           position: relative;
           overflow: hidden;
           isolation: isolate;
+          margin-top: -60px;
         }
 
         /* Animated gradient ring */
