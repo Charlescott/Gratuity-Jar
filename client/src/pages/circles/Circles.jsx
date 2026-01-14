@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./circles.css"
+import "./circles.css";
 
 export default function CirclesPage() {
   const [showContent, setShowContent] = useState(false);
@@ -80,7 +80,7 @@ export default function CirclesPage() {
         </div>
 
         {/* Welcome View */}
-        {(view === "welcome" || isShrinking) && (
+        {view === "welcome" && (
           <div
             className={`circles-content ${
               showContent && showWelcome ? "show" : ""
@@ -347,8 +347,6 @@ export default function CirclesPage() {
           </div>
         )}
       </div>
-
-      
     </div>
   );
 }
