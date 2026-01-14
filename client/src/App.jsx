@@ -12,7 +12,7 @@ import GratitudeEntries from "./pages/GratitudeEntries";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import RemindersPage from "./pages/Reminders";
-import Circles from "./pages/Circles";
+import Circles from "./pages/circles/Circles";
 
 function AppRoutes({ token, setToken, theme, setTheme }) {
   const navigate = useNavigate();
